@@ -817,42 +817,50 @@
   </footer>
 
   <script>
-  // Smooth scroll reveal (clean & modern)
-  const elements = document.querySelectorAll(
-    '.hero-title, .hero-desc, .btn-primary, .btn-secondary, .section-title, .service-card, .contact-item, p, .zone-tag'
-  );
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = "1";
-        entry.target.style.transform = "translateY(0)";
-        entry.target.style.transition = "all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1)";
-      }
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx - 5 + 'px';
+      cursor.style.top = my - 5 + 'px';
     });
-  }, {
-    threshold: 0.15
-  });
 
-  elements.forEach((el) => {
-    el.style.opacity = "0";
-    el.style.transform = "translateY(20px)";
-    observer.observe(el);
-  });
+    function animateRing() {
+      rx += (mx - rx - 18) * 0.12;
+      ry += (my - ry - 18) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
 
-  // Smooth anchor scrolling (extra polish)
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener("click", function (e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute("href"));
-      if (target) {
-        target.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-      }
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'scale(2.5)';
+        ring.style.transform = 'scale(1.4)';
+        ring.style.borderColor = 'rgba(0,212,255,0.8)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'scale(1)';
+        ring.style.transform = 'scale(1)';
+        ring.style.borderColor = 'rgba(0,212,255,0.5)';
+      });
     });
-  });
-</script>
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
