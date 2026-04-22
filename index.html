@@ -53,10 +53,64 @@
       z-index: 0;
     }
 
+    /* TICKER */
+    .ticker-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 32px;
+      background: rgba(10, 12, 16, 0.92);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-track {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      animation: ticker 28s linear infinite;
+      gap: 0;
+    }
+
+    .ticker-track:hover { animation-play-state: paused; }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 48px;
+    }
+
+    .ticker-item .dot {
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+
+    .ticker-item em {
+      font-style: normal;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
     /* NAV */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 32px; left: 0; right: 0;
       z-index: 100;
       padding: 24px 60px;
       display: flex;
@@ -622,6 +676,17 @@
   </style>
 </head>
 <body>
+
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <!-- duplicated for seamless loop -->
+      <span class="ticker-item"><span class="dot"></span>Estou a integrar também serviços de consultoria informática e de cibersegurança ao meu portefólio de serviços&nbsp;—&nbsp;<em>Brevemente!</em></span>
+      <span class="ticker-item"><span class="dot"></span>Estou a integrar também serviços de consultoria informática e de cibersegurança ao meu portefólio de serviços&nbsp;—&nbsp;<em>Brevemente!</em></span>
+      <span class="ticker-item"><span class="dot"></span>Estou a integrar também serviços de consultoria informática e de cibersegurança ao meu portefólio de serviços&nbsp;—&nbsp;<em>Brevemente!</em></span>
+      <span class="ticker-item"><span class="dot"></span>Estou a integrar também serviços de consultoria informática e de cibersegurança ao meu portefólio de serviços&nbsp;—&nbsp;<em>Brevemente!</em></span>
+    </div>
+  </div>
 
   <!-- NAV -->
   <nav>
