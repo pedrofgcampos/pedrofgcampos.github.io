@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pedro Campos — Técnico de Informática & Redes</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,33 +24,10 @@
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-weight: 300;
       overflow-x: hidden;
-      cursor: none;
     }
-
-    /* Custom cursor */
-    .cursor {
-      width: 10px; height: 10px;
-      background: var(--accent);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transition: transform 0.15s ease;
-      mix-blend-mode: screen;
-    }
-    .cursor-ring {
-      width: 36px; height: 36px;
-      border: 1px solid rgba(0,212,255,0.5);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9998;
-      transition: all 0.12s ease;
-    }
-    body:hover .cursor { transform: scale(1); }
 
     /* Noise overlay */
     body::before {
@@ -90,9 +67,9 @@
     }
 
     .nav-logo {
-      font-family: 'Ubuntu', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 800;
-      font-size: 2rem;
+      font-size: 1.1rem;
       letter-spacing: 0.05em;
       color: var(--text);
     }
@@ -186,7 +163,7 @@
     }
 
     .hero-title {
-      font-family: 'Ubuntu', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 800;
       font-size: clamp(3rem, 7vw, 6.5rem);
       line-height: 0.95;
@@ -225,7 +202,7 @@
       padding: 14px 32px;
       background: var(--accent);
       color: var(--bg);
-      font-family: 'Syne', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 700;
       font-size: 0.9rem;
       letter-spacing: 0.05em;
@@ -255,7 +232,7 @@
       padding: 14px 32px;
       border: 1px solid var(--border);
       color: var(--text);
-      font-family: 'Ubuntu', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 600;
       font-size: 0.9rem;
       letter-spacing: 0.05em;
@@ -368,7 +345,7 @@
     }
 
     .section-title {
-      font-family: 'Ubuntu', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 800;
       font-size: clamp(2rem, 4vw, 3.5rem);
       line-height: 1.05;
@@ -420,7 +397,7 @@
     .service-num {
       position: absolute;
       top: 32px; right: 32px;
-      font-family: 'Ubuntu', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 800;
       font-size: 3.5rem;
       color: rgba(255,255,255,0.03);
@@ -431,7 +408,7 @@
     .service-card:hover .service-num { color: rgba(0,212,255,0.06); }
 
     .service-name {
-      font-family: 'Ubuntu', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 700;
       font-size: 1.15rem;
       margin-bottom: 12px;
@@ -473,7 +450,7 @@
     .stat-box:hover { background: #141820; }
 
     .stat-num {
-      font-family: 'Ubuntu', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 800;
       font-size: 2.8rem;
       color: var(--accent);
@@ -573,14 +550,14 @@
     }
 
     .contact-value {
-      font-family: 'Ubuntu', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 600;
       font-size: 1rem;
     }
 
     .contact-tagline {
       font-size: 1.8rem;
-      font-family: 'Ubuntu', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 800;
       line-height: 1.2;
       margin-bottom: 24px;
@@ -607,7 +584,7 @@
     }
 
     .footer-logo {
-      font-family: 'Ubuntu', sans-serif;
+      font-family: 'Outfit', sans-serif;
       font-weight: 800;
       font-size: 1rem;
     }
@@ -646,9 +623,6 @@
 </head>
 <body>
 
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
   <!-- NAV -->
   <nav>
     <div class="nav-logo">Pedro<span>.</span>Campos</div>
@@ -669,7 +643,7 @@
       <h1 class="hero-title">
         Técnico<br>
         <span class="line2">Especializado</span><br>
-        em <span class="accent">Redes e Informática</span>
+        em <span class="accent">Informática</span>
       </h1>
       <p class="hero-desc">
         Suporte técnico profissional em informática e redes para particulares e empresas. Rápido, fiável e sem complicações.
@@ -745,13 +719,14 @@
       <div class="about-text">
         <div class="section-label">Sobre mim</div>
         <h2 class="section-title reveal" style="margin-bottom: 32px;">Pedro<br>Campos</h2>
-        <p class="reveal">Sou <strong>Técnico Especializado em Gestão de Redes e Sistemas Informáticos</strong>, focado na resolução rápida e eficiente de problemas tecnológicos para particulares e empresas.</p>
-        <p class="reveal">O meu trabalho é garantir que tudo volta a funcionar sem complicações: diagnostico, resolvo e otimizo sistemas com clareza e eficácia.</p>
+        <p class="reveal">Sou <strong>técnico especializado em Informática e Redes</strong>, com experiência a resolver os problemas tecnológicos do dia-a-dia de particulares e empresas.</p>
+        <p class="reveal">O meu objetivo é simples: <strong>aparecer, resolver e deixar tudo a funcionar</strong>. Sem jargão desnecessário, sem esperas intermináveis.</p>
         <p class="reveal">Trabalho na zona de:</p>
         <div class="zone-list reveal">
           <span class="zone-tag">Almada</span>
           <span class="zone-tag">Seixal</span>
           <span class="zone-tag">Lisboa</span>
+          <span class="zone-tag">Arredores</span>
         </div>
       </div>
       <div class="about-stats reveal">
@@ -816,39 +791,6 @@
   </footer>
 
   <script>
-       // Custom cursor
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-
-    document.addEventListener('mousemove', e => {
-      mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx - 5 + 'px';
-      cursor.style.top = my - 5 + 'px';
-    });
-
-    function animateRing() {
-      rx += (mx - rx - 18) * 0.12;
-      ry += (my - ry - 18) * 0.12;
-      ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
-      requestAnimationFrame(animateRing);
-    }
-    animateRing();
-
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'scale(2.5)';
-        ring.style.transform = 'scale(1.4)';
-        ring.style.borderColor = 'rgba(0,212,255,0.8)';
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.transform = 'scale(1)';
-        ring.style.transform = 'scale(1)';
-        ring.style.borderColor = 'rgba(0,212,255,0.5)';
-      });
-    });
-
     // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
