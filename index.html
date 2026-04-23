@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pedro Campos — Técnico de Informática & Redes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0c10;
+      --bg2: #0f1218;
+      --accent: #00d4ff;
+      --accent2: #0066ff;
+      --text: #e8edf5;
+      --muted: #6b7a99;
+      --card: #12161f;
+      --border: rgba(0, 212, 255, 0.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* Noise overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* Grid lines background */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* TICKER */
+    .ticker-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: 32px;
+      background: rgba(10, 12, 16, 0.92);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .ticker-track {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      animation: ticker 28s linear infinite;
+      gap: 0;
+    }
+
+    .ticker-track:hover { animation-play-state: paused; }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 48px;
+    }
+
+    .ticker-item .dot {
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0.7;
+      flex-shrink: 0;
+    }
+
+    .ticker-item em {
+      font-style: normal;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 32px; left: 0; right: 0;
+      z-index: 100;
+      padding: 24px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(10,12,16,0.95), transparent);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      color: var(--text);
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 60px;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(0,102,255,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-30%, -50%);
+      pointer-events: none;
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    .hero-glow2 {
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+      top: 20%; right: 10%;
+      pointer-events: none;
+      animation: pulse 4s ease-in-out infinite reverse;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: translate(-30%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-30%, -50%) scale(1.05); }
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 32px;
+      background: rgba(0,212,255,0.04);
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: blink 2s ease infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .hero-title .line2 {
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(232,237,245,0.3);
+    }
+
+    .hero-title .accent { color: var(--accent); }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent2);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary span { position: relative; z-index: 1; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.3s;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0,212,255,0.05);
+    }
+
+    /* Floating tech tags */
+    .hero-tags {
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeUp 0.8s 0.5s ease both;
+    }
+
+    .tag {
+      padding: 8px 18px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(18,22,31,0.8);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+
+    .tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 60px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: fadeUp 0.8s 0.6s ease both;
+    }
+
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: var(--muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      animation: scrollLine 2s ease infinite;
+    }
+
+    @keyframes scrollLine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* SECTION BASE */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 120px 60px;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 60px;
+    }
+
+    /* SERVICES */
+    .services { background: var(--bg); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+
+    .service-card {
+      background: var(--card);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      border: 1px solid transparent;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+      transform-origin: left;
+    }
+
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card:hover {
+      border-color: var(--border);
+      background: #141820;
+    }
+
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .service-num {
+      position: absolute;
+      top: 32px; right: 32px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 3.5rem;
+      color: rgba(255,255,255,0.03);
+      line-height: 1;
+      transition: color 0.4s;
+    }
+
+    .service-card:hover .service-num { color: rgba(0,212,255,0.06); }
+
+    .service-name {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 12px;
+    }
+
+    .service-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    /* ABOUT / ZONE */
+    .about {
+      background: var(--bg2);
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .stat-box {
+      background: var(--card);
+      padding: 32px;
+      text-align: center;
+      transition: background 0.3s;
+    }
+
+    .stat-box:hover { background: #141820; }
+
+    .stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 2.8rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .about-text p {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+
+    .about-text p strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .zone-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 32px;
+    }
+
+    .zone-tag {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+
+    /* CONTACT */
+    .contact { background: var(--bg); }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 28px 32px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      margin-bottom: 16px;
+      background: var(--card);
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transition: transform 0.3s;
+    }
+
+    .contact-item:hover::before { transform: scaleY(1); }
+    .contact-item:hover {
+      border-color: rgba(0,212,255,0.3);
+      background: #141820;
+    }
+
+    .contact-icon {
+      font-size: 1.4rem;
+      min-width: 40px;
+      text-align: center;
+    }
+
+    .contact-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .contact-value {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .contact-tagline {
+      font-size: 1.8rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+
+    .contact-tagline span { color: var(--accent); }
+
+    .contact-sub {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 32px 60px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+
+    .footer-logo span { color: var(--accent); }
+
+    footer p {
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Mobile */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 24px 80px; }
+      .hero-tags { display: none; }
+      section { padding: 80px 24px; }
+      .about-inner, .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+      footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+      .scroll-indicator { left: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <!-- duplicated for seamless loop -->
+      <span class="ticker-item"><span class="dot"></span>Estou a integrar também serviços de consultoria informática e de cibersegurança ao meu portefólio de serviços&nbsp;—&nbsp;<em>Brevemente!</em></span>
+      <span class="ticker-item"><span class="dot"></span>Estou a integrar também serviços de consultoria informática e de cibersegurança ao meu portefólio de serviços&nbsp;—&nbsp;<em>Brevemente!</em></span>
+      <span class="ticker-item"><span class="dot"></span>Estou a integrar também serviços de consultoria informática e de cibersegurança ao meu portefólio de serviços&nbsp;—&nbsp;<em>Brevemente!</em></span>
+      <span class="ticker-item"><span class="dot"></span>Estou a integrar também serviços de consultoria informática e de cibersegurança ao meu portefólio de serviços&nbsp;—&nbsp;<em>Brevemente!</em></span>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">Pedro<span>.</span>Campos</div>
+    <ul class="nav-links">
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">Disponível para novos projetos</div>
+      <h1 class="hero-title">
+        Técnico<br>
+        <span class="line2">Especializado</span><br>
+        em <span class="accent">Redes e Informática</span>
+      </h1>
+      <p class="hero-desc">
+        Suporte técnico profissional em informática e redes para particulares e empresas. Rápido, fiável e sem complicações.
+      </p>
+      <div class="hero-cta">
+        <a href="#servicos" class="btn-secondary">Ver serviços</a>
+        <a href="#contacto" class="btn-primary"><span>Falar comigo</span> <span>→</span></a>
+      </div>
+    </div>
+
+    <div class="hero-tags">
+      <div class="tag">Windows / Linux</div>
+      <div class="tag">Redes & Wi-Fi</div>
+      <div class="tag">Suporte Remoto</div>
+      <div class="tag">Hardware</div>
+      <div class="tag">Segurança</div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="servicos">
+    <div class="section-label">O que faço</div>
+    <h2 class="section-title reveal">Serviços<br>que presto:</h2>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-icon">🖥️</span>
+        <div class="service-name">Suporte Informático</div>
+        <p class="service-desc">Resolução de problemas em computadores, portáteis e periféricos. Instalação e configuração de software e sistemas operativos.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon">🌐</span>
+        <div class="service-name">Redes & Conectividade</div>
+        <p class="service-desc">Instalação e configuração de redes domésticas e empresariais. Wi-Fi, routers, switches e resolução de falhas de ligação.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon">🔧</span>
+        <div class="service-name">Manutenção & Reparação</div>
+        <p class="service-desc">Diagnóstico e reparação de hardware. Limpeza, substituição de componentes e upgrades para melhorar o desempenho.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon">🛡️</span>
+        <div class="service-name">Segurança Informática</div>
+        <p class="service-desc">Remoção de vírus e malware. Configuração de antivírus, firewalls e boas práticas de segurança digital.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon">💾</span>
+        <div class="service-name">Recuperação de Dados</div>
+        <p class="service-desc">Recuperação de ficheiros perdidos ou apagados. Backup e estratégias de proteção de dados importantes.</p>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon">📡</span>
+        <div class="service-name">Suporte Remoto</div>
+        <p class="service-desc">Assistência técnica à distância, sem necessidade de deslocação. Rápido, eficiente e disponível quando precisas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="sobre">
+    <div class="about-inner">
+      <div class="about-text">
+        <div class="section-label">Sobre mim</div>
+        <h2 class="section-title reveal" style="margin-bottom: 32px;">Pedro<br>Campos</h2>
+        <p class="reveal">Sou <strong>Técnico Tspecializado em Gestão de Redes e Informática</strong>, com experiência a resolver os problemas tecnológicos do dia-a-dia de particulares e empresas.</p>
+        <p class="reveal">O meu trabalho é garantir que tudo volta a funcionar sem complicações: diagnostico, resolvo e otimizo sistemas com clareza e eficácia.</p>
+        <p class="reveal">Trabalho na zona de:</p>
+        <div class="zone-list reveal">
+          <span class="zone-tag">Almada</span>
+          <span class="zone-tag">Seixal</span>
+          <span class="zone-tag">Lisboa</span>
+          <span class="zone-tag">Remoto: todo o país</span>
+        </div>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-box">
+          <div class="stat-num">24h</div>
+          <div class="stat-label">Resposta rápida</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Dedicação</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">PC</div>
+          <div class="stat-label">& Portátil</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">Redes</div>
+          <div class="stat-label">& Segurança</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contacto">
+    <div class="contact-inner">
+      <div>
+        <div class="section-label">Contacto</div>
+        <h2 class="contact-tagline reveal">Tens um<br>problema?<br><span>Vamos resolver.</span></h2>
+        <p class="contact-sub reveal">Liga, envia um email ou um WhatsApp. Respondo o mais rápido possível.</p>
+      </div>
+      <div class="reveal">
+        <a href="tel:+351931378462" class="contact-item">
+          <span class="contact-icon">📞</span>
+          <div>
+            <div class="contact-label">Telefone / WhatsApp</div>
+            <div class="contact-value">931 378 462</div>
+          </div>
+        </a>
+        <a href="mailto:pedrofgcampos@gmail.com" class="contact-item">
+          <span class="contact-icon">✉️</span>
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">pedrofgcampos@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://wa.me/351931378462" target="_blank" class="contact-item">
+          <span class="contact-icon">💬</span>
+          <div>
+            <div class="contact-label">WhatsApp</div>
+            <div class="contact-value">Enviar mensagem →</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Pedro<span>.</span>Campos</div>
+    <p>© 2025 Pedro Campos — Técnico de Informática & Redes</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
