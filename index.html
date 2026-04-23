@@ -662,6 +662,94 @@
       transform: translateY(0);
     }
 
+
+    /* CONTACT FORM */
+    .contact-form-wrap {
+      max-width: 860px;
+      margin: 64px auto 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px;
+    }
+    .form-label-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .form-sub {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .form-row .form-group { margin-bottom: 0; }
+    .form-group label {
+      font-size: 0.8rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .form-group input,
+    .form-group textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,212,255,0.15);
+      border-radius: 10px;
+      padding: 14px 18px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 300;
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+      resize: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(107,122,153,0.6); }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      background: rgba(0,212,255,0.04);
+    }
+    #form-feedback {
+      margin-top: 16px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    #form-feedback.success {
+      background: rgba(0,212,100,0.1);
+      border: 1px solid rgba(0,212,100,0.3);
+      color: #00d464;
+      display: block;
+    }
+    #form-feedback.error {
+      background: rgba(255,80,80,0.1);
+      border: 1px solid rgba(255,80,80,0.3);
+      color: #ff5050;
+      display: block;
+    }
+    @media (max-width: 900px) {
+      .form-row { grid-template-columns: 1fr; }
+      .contact-form-wrap { padding: 28px 20px; }
+    }
+
     /* Mobile */
     @media (max-width: 900px) {
       nav { padding: 20px 24px; }
@@ -841,6 +929,34 @@
         </a>
       </div>
     </div>
+
+    <!-- CONTACT FORM -->
+    <div class="contact-form-wrap reveal">
+      <div class="form-header">
+        <span class="form-label-tag">Formulário de contacto</span>
+        <p class="form-sub">Preenche os teus dados e envio-te resposta o mais brevemente possível.</p>
+      </div>
+      <div id="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="from_name">Nome</label>
+            <input type="text" id="from_name" name="from_name" placeholder="O teu nome" required />
+          </div>
+          <div class="form-group">
+            <label for="from_contact">Contacto (telefone ou email)</label>
+            <input type="text" id="from_contact" name="from_contact" placeholder="910 000 000 ou email@exemplo.com" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">Mensagem</label>
+          <textarea id="message" name="message" rows="5" placeholder="Descreve o teu problema ou pedido..." required></textarea>
+        </div>
+        <button type="button" id="form-submit" class="btn-primary" style="width:100%;justify-content:center;">
+          <span id="btn-text">Enviar mensagem</span> <span id="btn-arrow">→</span>
+        </button>
+        <div id="form-feedback"></div>
+      </div>
+    </div>
   </section>
 
   <!-- FOOTER -->
@@ -861,6 +977,53 @@
     }, { threshold: 0.1 });
 
     reveals.forEach(el => observer.observe(el));
+  </script>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    emailjs.init('--A1Qm6Z8oRSYMfzR');
+
+    document.getElementById('form-submit').addEventListener('click', function() {
+      const name = document.getElementById('from_name').value.trim();
+      const contact = document.getElementById('from_contact').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const feedback = document.getElementById('form-feedback');
+      const btn = document.getElementById('form-submit');
+      const btnText = document.getElementById('btn-text');
+      const btnArrow = document.getElementById('btn-arrow');
+
+      if (!name || !contact || !message) {
+        feedback.className = 'error';
+        feedback.textContent = 'Por favor preenche todos os campos.';
+        return;
+      }
+
+      btn.disabled = true;
+      btnText.textContent = 'A enviar...';
+      btnArrow.textContent = '';
+
+      emailjs.send('service_roaqdnf', 'template_iatj7sm', {
+        from_name: name,
+        from_contact: contact,
+        message: message
+      }).then(function() {
+        feedback.className = 'success';
+        feedback.textContent = '✓ Mensagem enviada com sucesso! Responderei em breve.';
+        document.getElementById('from_name').value = '';
+        document.getElementById('from_contact').value = '';
+        document.getElementById('message').value = '';
+        btn.disabled = false;
+        btnText.textContent = 'Enviar mensagem';
+        btnArrow.textContent = '→';
+      }, function(error) {
+        feedback.className = 'error';
+        feedback.textContent = 'Erro ao enviar. Tenta novamente ou contacta por WhatsApp.';
+        btn.disabled = false;
+        btnText.textContent = 'Enviar mensagem';
+        btnArrow.textContent = '→';
+      });
+    });
   </script>
 </body>
 </html>
